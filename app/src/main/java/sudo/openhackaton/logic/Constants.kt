@@ -13,9 +13,9 @@ object Constants {
     const val RECOGNITION_DIDNT_SUCCEED = "Text wasn't recognized. :( Try again."
     const val PICTURE_WASNT_TAKEN = "Something went wrong while taking a picture. :("
     const val MODE_READ = "r"
-    const val PROVIDER = ".provider"
-
+    const val RECOGNITION_IN_PROGRESS = "Recognition is in process..."
     const val REQUEST_CODE_PERMISSIONS = 314
     const val REQUEST_CODE_PICTURE = 44
     const val REQUEST_TAKE_A_PHOTO = 45
+    const val JPG = ".jpg"
 }

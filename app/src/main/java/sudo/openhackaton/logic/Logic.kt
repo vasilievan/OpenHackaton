@@ -24,10 +24,13 @@ import androidx.core.content.FileProvider
 import com.googlecode.tesseract.android.TessBaseAPI
 import sudo.openhackaton.logic.Constants.DATA_FILE
 import sudo.openhackaton.logic.Constants.IMAGE_DOCUMENT_TYPE
+import sudo.openhackaton.logic.Constants.JPG
 import sudo.openhackaton.logic.Constants.LANGUAGE
 import sudo.openhackaton.logic.Constants.MAIN_DIR
 import sudo.openhackaton.logic.Constants.MODE_READ
+import sudo.openhackaton.logic.Constants.PICTURE_WASNT_TAKEN
 import sudo.openhackaton.logic.Constants.RECOGNITION_DIDNT_SUCCEED
+import sudo.openhackaton.logic.Constants.RECOGNITION_IN_PROGRESS
 import sudo.openhackaton.logic.Constants.REQUEST_CODE_PERMISSIONS
 import sudo.openhackaton.logic.Constants.REQUEST_CODE_PICTURE
 import sudo.openhackaton.logic.Constants.REQUEST_TAKE_A_PHOTO
@@ -39,9 +42,8 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 
-
 class Logic {
-    var currentPhotoPath: String? = null
+    private var currentPhotoPath: String? = null
 
     fun askForPermissions(context: Context, activity: Activity) {
         if ((ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -121,7 +123,7 @@ class Logic {
         return image
     }
 
-    private fun getBitmapFromAbsoltutePath(): Bitmap? {
+    private fun getBitmapFromAbsolutePath(): Bitmap? {
         try {
             val options = BitmapFactory.Options()
             return BitmapFactory.decodeFile(currentPhotoPath, options)
@@ -153,7 +155,7 @@ class Logic {
 
     private fun createImageFile(): File? {
         val time = Date().time.toString()
-        val file = File("$MAIN_DIR/$ROOT/$time.jpg")
+        val file = File("$MAIN_DIR/$ROOT/$time$JPG")
         return try {
             file.createNewFile()
             currentPhotoPath = file.absolutePath
@@ -163,7 +165,7 @@ class Logic {
         }
     }
 
-    fun chosenFromFileSystem(context: Context,
+    fun doTask(context: Context,
                              assets: AssetManager,
                              contentResolver: ContentResolver,
                              requestCode: Int,
@@ -171,16 +173,17 @@ class Logic {
                              resultCode: Int,
                              resultData: Intent?) {
         if (resultCode == RESULT_OK) {
-            Toast.makeText(context, "Recognition is in process...", Toast.LENGTH_LONG).show()
-
+            Toast.makeText(context, RECOGNITION_IN_PROGRESS, Toast.LENGTH_LONG).show()
             var bm: Bitmap? = null
             if (requestCode == REQUEST_CODE_PICTURE) {
                 if (resultData != null) {
                     bm = getBitmapFromUri(contentResolver, resultData.data)
                 }
             } else if (requestCode == REQUEST_TAKE_A_PHOTO) {
-                bm = getBitmapFromAbsoltutePath()
+                bm = getBitmapFromAbsolutePath()
                 if (currentPhotoPath != null) File(currentPhotoPath!!).delete()
+                else Toast.makeText(context, PICTURE_WASNT_TAKEN, Toast.LENGTH_LONG).show()
+                currentPhotoPath = null
             }
             @SuppressLint("StaticFieldLeak")
             val asyncTask = object : AsyncTask<Any?, Any?, Any?>() {

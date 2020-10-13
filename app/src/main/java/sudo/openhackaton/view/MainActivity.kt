@@ -36,6 +36,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
-        logic.chosenFromFileSystem(this, assets, contentResolver, requestCode, indicator, resultCode, resultData)
+        logic.doTask(this, assets, contentResolver, requestCode, indicator, resultCode, resultData)
     }
 }
