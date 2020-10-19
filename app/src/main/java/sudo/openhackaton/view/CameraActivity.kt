@@ -5,19 +5,18 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_camera.*
 import sudo.openhackaton.R
-import sudo.openhackaton.logic.Logic
+import sudo.openhackaton.logic.Constants.cameraLogic
 
-class CameraActivity : AppCompatActivity(){
-    private val logic = Logic()
-
+class CameraActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
-        logic.startCamera(viewFinder, this)
+        cameraLogic.setCameraActivity(this)
+        cameraLogic.startCamera(viewFinder, this)
     }
 
-    fun takeAPhoto(view: View) {
-        logic.takePictures(this, this, rectangle, viewFinder)
+    fun takeAPhoto(v: View) {
+        cameraLogic.takePictures(rectangle, viewFinder)
     }
 }
 

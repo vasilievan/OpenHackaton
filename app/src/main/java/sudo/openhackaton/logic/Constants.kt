@@ -1,10 +1,7 @@
 package sudo.openhackaton.logic
 
-import android.os.Environment
-
 object Constants {
-    //val MAIN_DIR = Environment.getExternalStorageDirectory().toString()
-    val LANGUAGE = "eng"
+    const val LANGUAGE = "eng"
     const val ALLOWED_SYMBOLS = "1234567890"
     const val ROOT = "sudo"
     const val TESS_DIR = "tessdata"
@@ -18,4 +15,11 @@ object Constants {
     const val REQUEST_CODE_PICTURE = 44
     const val REQUEST_TAKE_A_PHOTO = 45
     const val JPG = ".jpg"
+    const val EMPTY_STRING = ""
+    const val CROPPED_SUFFIX = "-CROPPED"
+    const val CAPTURE_FAILED = "Photo capture failed: "
+    const val TAG = "TAG"
+    const val BINDING_FAILED = "Use case binding failed"
+    lateinit var cameraLogic: CameraLogic
+    lateinit var MAIN_DIR: String
 }
