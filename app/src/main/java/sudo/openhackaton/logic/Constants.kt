@@ -3,7 +3,7 @@ package sudo.openhackaton.logic
 import android.os.Environment
 
 object Constants {
-    val MAIN_DIR = Environment.getExternalStorageDirectory().toString()
+    //val MAIN_DIR = Environment.getExternalStorageDirectory().toString()
     val LANGUAGE = "eng"
     const val ALLOWED_SYMBOLS = "1234567890"
     const val ROOT = "sudo"
