@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/ic_camera"
             app:layout_constraintBottom_toBottomOf="@id/cameraBottomView"
             app:layout_constraintEnd_toEndOf="@id/cameraBottomView"
             app:layout_constraintStart_toStartOf="@id/cameraBottomView"
