@@ -25,37 +25,31 @@
             android:text=""
             android:layout_centerHorizontal="true"
             android:layout_margin="20sp"/>
-        <RelativeLayout
+        <LinearLayout
+            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageButton
                 android:layout_marginTop="150sp"
-                android:layout_marginStart="60sp"
                 android:src="@drawable/choose"
                 android:background="@android:color/transparent"
-                android:layout_alignParentStart="true"
                 android:id="@+id/chooseButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="chosen"
                 android:text="@string/choose_a_picture"
-                android:textAllCaps="false">
-            </ImageButton>
+                android:textAllCaps="false"/>
             <ImageButton
                 android:layout_marginBottom="90sp"
-                android:layout_marginEnd="70sp"
                 android:src="@drawable/camera"
                 android:background="@android:color/transparent"
                 android:id="@+id/photoButton"
-                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/take_a_photo"
                 android:textAllCaps="false"
-                android:onClick="takeAPhoto">
-            </ImageButton>
-
-        </RelativeLayout>
+                android:onClick="takeAPhoto"/>
+        </LinearLayout>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
