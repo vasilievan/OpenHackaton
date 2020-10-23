@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), Serializable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        filesLogic = FilesLogic(this, this, assets)
+        filesLogic = FilesLogic(this, this)
         cameraLogic = CameraLogic(filesLogic)
         recognition = Recognition(filesLogic)
         filesLogic.askForPermissions()
@@ -41,12 +41,6 @@ class MainActivity : AppCompatActivity(), Serializable {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
-        recognition.doTask(
-            contentResolver,
-            requestCode,
-            indicator,
-            resultCode,
-            resultData
-        )
+        recognition.doTask(indicator, resultCode)
     }
 }
