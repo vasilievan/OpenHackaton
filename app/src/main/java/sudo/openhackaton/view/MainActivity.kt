@@ -41,6 +41,6 @@ class MainActivity : AppCompatActivity(), Serializable {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
-        recognition.doTask(indicator, resultCode)
+        recognition.doTask(contentResolver, indicator, resultCode, resultData)
     }
 }

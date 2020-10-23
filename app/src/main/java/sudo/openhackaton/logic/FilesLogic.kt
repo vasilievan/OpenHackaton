@@ -2,21 +2,26 @@ package sudo.openhackaton.logic
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.ParcelFileDescriptor
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import sudo.openhackaton.logic.Constants.IMAGE_DOCUMENT_TYPE
 import sudo.openhackaton.logic.Constants.JPG
 import sudo.openhackaton.logic.Constants.MAIN_DIR
+import sudo.openhackaton.logic.Constants.MODE_READ
 import sudo.openhackaton.logic.Constants.REQUEST_CODE_PERMISSIONS
 import sudo.openhackaton.logic.Constants.REQUEST_CODE_PICTURE
 import sudo.openhackaton.logic.Constants.ROOT
 import java.io.File
+import java.io.FileDescriptor
 import java.io.IOException
 import java.util.*
 
@@ -60,6 +65,15 @@ class FilesLogic(val context: Context, private val activity: Activity) {
         } catch (e: IOException) {
         }
         return null
+    }
+
+    fun getBitmapFromUri(contentResolver: ContentResolver, uri: Uri?): Bitmap? {
+        if (uri == null) return null
+        val parcelFileDescriptor: ParcelFileDescriptor = contentResolver.openFileDescriptor(uri, MODE_READ) ?: return null
+        val fileDescriptor: FileDescriptor = parcelFileDescriptor.fileDescriptor
+        val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+        parcelFileDescriptor.close()
+        return image
     }
 
     fun performFileSearch() {
