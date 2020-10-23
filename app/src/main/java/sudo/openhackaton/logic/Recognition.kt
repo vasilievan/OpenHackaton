@@ -12,7 +12,7 @@ import sudo.openhackaton.logic.Constants.RECOGNITION_DIDNT_SUCCEED
 import sudo.openhackaton.logic.Constants.RECOGNITION_IN_PROGRESS
 
 class Recognition(private val filesLogic: FilesLogic) {
-    private lateinit var inputImage: InputImage
+    private var inputImage: InputImage? = null
     private val recognizer = TextRecognition.getClient()
 
     fun doTask(contentResolver: ContentResolver,
@@ -30,8 +30,13 @@ class Recognition(private val filesLogic: FilesLogic) {
                 InputImage.fromBitmap(bm, 0)
             }
 
-            recognizer.process(inputImage).addOnCompleteListener {
-                indicator.text = if (it.result == null || it.result.toString().isEmpty()) {
+            if (inputImage == null) {
+                indicator.text = RECOGNITION_DIDNT_SUCCEED
+                return
+            }
+
+            recognizer.process(inputImage!!).addOnCompleteListener {
+                indicator.text = if (it.result == null || it.result!!.text.isEmpty()) {
                     RECOGNITION_DIDNT_SUCCEED
                 } else {
                     if (filesLogic.lastCreated != null) {
