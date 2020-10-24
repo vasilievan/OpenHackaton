@@ -27,7 +27,7 @@ import java.util.*
 
 class FilesLogic(val context: Context, private val activity: Activity) {
     var lastCreated: File? = null
-    private set
+    var files: Queue<File> = LinkedList()
 
     fun askForPermissions() {
         if ((ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -68,7 +68,8 @@ class FilesLogic(val context: Context, private val activity: Activity) {
 
     fun getBitmapFromUri(contentResolver: ContentResolver, uri: Uri?): Bitmap? {
         if (uri == null) return null
-        val parcelFileDescriptor: ParcelFileDescriptor = contentResolver.openFileDescriptor(uri, MODE_READ) ?: return null
+        val parcelFileDescriptor: ParcelFileDescriptor =
+            contentResolver.openFileDescriptor(uri, MODE_READ) ?: return null
         val fileDescriptor: FileDescriptor = parcelFileDescriptor.fileDescriptor
         val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
         parcelFileDescriptor.close()
@@ -78,6 +79,7 @@ class FilesLogic(val context: Context, private val activity: Activity) {
     fun performFileSearch() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         intent.type = IMAGE_DOCUMENT_TYPE
         startActivityForResult(activity, intent, REQUEST_CODE_PICTURE, null)
     }
@@ -88,6 +90,7 @@ class FilesLogic(val context: Context, private val activity: Activity) {
         return try {
             file.createNewFile()
             lastCreated = file
+            files.add(file)
             lastCreated
         } catch (e: IOException) {
             lastCreated = null

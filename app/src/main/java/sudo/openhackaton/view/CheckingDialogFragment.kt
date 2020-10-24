@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import sudo.openhackaton.R
 import sudo.openhackaton.logic.Constants.INDICATION
 import sudo.openhackaton.logic.Constants.SERIAL_NUMBER
+import java.util.*
 
 
 class CheckingDialogFragment : DialogFragment() {
@@ -39,20 +40,20 @@ class CheckingDialogFragment : DialogFragment() {
     }
 
     companion object {
-        private lateinit var currentDialog: CheckingDialogFragment
+        private val q: Queue<CheckingDialogFragment> = LinkedList()
         fun newInstance(serialNumber: String?, indication: String?): DialogFragment {
             val fragment = CheckingDialogFragment()
-            currentDialog = fragment
             val args = Bundle()
             args.putString(SERIAL_NUMBER, serialNumber)
             args.putString(INDICATION, indication)
             fragment.arguments = args
+            q.add(fragment)
             return fragment
         }
 
         fun close() {
-            if (this::currentDialog.isInitialized) {
-                currentDialog.dismiss()
+            if (q.isNotEmpty()) {
+                q.poll().dismiss()
             }
         }
     }
