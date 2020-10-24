@@ -27,6 +27,7 @@ class Recognition(private val filesLogic: FilesLogic) {
     private val recognizer = TextRecognition.getClient()
     private lateinit var context: AppCompatActivity
 
+
     private fun serialNumberAndIndication(strings: MutableList<String>): Pair<String?, String?> {
         if (strings.size == 0) return null to null
         if (strings.size == 1) return strings[0] to null

@@ -15,6 +15,7 @@ import sudo.openhackaton.logic.FilesLogic
 import sudo.openhackaton.logic.Network
 import sudo.openhackaton.logic.Recognition
 
+
 class MainActivity : AppCompatActivity() {
     private lateinit var recognition: Recognition
     private lateinit var filesLogic: FilesLogic

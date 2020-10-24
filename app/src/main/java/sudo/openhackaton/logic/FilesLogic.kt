@@ -25,6 +25,7 @@ import java.io.FileDescriptor
 import java.io.IOException
 import java.util.*
 
+
 class FilesLogic(val context: Context, private val activity: Activity) {
     var lastCreated: File? = null
     var files: Queue<File> = LinkedList()
