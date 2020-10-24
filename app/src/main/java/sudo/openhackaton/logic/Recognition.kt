@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
+import sudo.openhackaton.logic.Constants.DIGITS
 import sudo.openhackaton.logic.Constants.FROM_WHERE
 import sudo.openhackaton.logic.Constants.RECOGNITION_DIDNT_SUCCEED
 import sudo.openhackaton.logic.Constants.RECOGNITION_IN_PROGRESS
@@ -23,12 +24,18 @@ class Recognition(private val filesLogic: FilesLogic) {
     private val recognizer = TextRecognition.getClient()
     private lateinit var context: AppCompatActivity
 
-    private fun serialNumber(strings: MutableSet<String>): String {
-        return ""
-    }
-
-    private fun indication(strings: MutableSet<String>): String {
-        return ""
+    private fun serialNumberAndIndication(strings: MutableList<String>): Pair<String?, String?> {
+        if (strings.size == 0) return null to null
+        if (strings.size == 1) return strings[0] to null
+        val newStr = mutableListOf<String>()
+        strings.forEach { if (it.count { char -> Regex("""[A-Za-z]""").matches(char.toString()) } < 2) newStr.add(Regex("""[ ,]""").replace(it, "")) }
+        newStr.sortByDescending { it.count { char -> DIGITS.contains(char) } }
+        val newNewStr = mutableListOf<String>()
+        newStr.forEach { newNewStr.add(Regex("""[A-Za-z]""").replace(it, "")) }
+        newNewStr.forEach {
+            println(it)
+        }
+        return newNewStr[0] to newNewStr.firstOrNull { it.matches(Regex("""\d{3,8}""")) }
     }
 
     private fun rotateBitmap(source: Bitmap, angle: Float): Bitmap? {
@@ -69,12 +76,10 @@ class Recognition(private val filesLogic: FilesLogic) {
                 val bm = filesLogic.getBitmapFromAbsolutePath(filesLogic.lastCreated!!.absolutePath) ?: return
                 InputImage.fromBitmap(bm, 0)
             }
-
             if (inputImage == null) {
                 Toast.makeText(context, RECOGNITION_DIDNT_SUCCEED, Toast.LENGTH_LONG).show()
                 return
             }
-
             recognizer.process(inputImage!!).addOnCompleteListener {
                 if (it.result == null || it.result!!.text.isEmpty()) {
                     Toast.makeText(context, RECOGNITION_DIDNT_SUCCEED, Toast.LENGTH_LONG).show()
@@ -82,13 +87,14 @@ class Recognition(private val filesLogic: FilesLogic) {
                     if (filesLogic.lastCreated != null) {
                         filesLogic.lastCreated!!.delete()
                     }
-                    val recognizedStrings = mutableSetOf<String>()
+                    val recognizedStrings = mutableListOf<String>()
                     it.result!!.textBlocks.forEach { textBlock ->
                         recognizedStrings.add(textBlock.text)
                     }
-                    val serialNumber = serialNumber(recognizedStrings)
-                    val indication = indication(recognizedStrings)
-                    CheckingDialogFragment.newInstance(serialNumber, indication).show(context.supportFragmentManager, RECOGNITION_RESULT)
+                    val serialNumberAndIndication = serialNumberAndIndication(recognizedStrings)
+                    CheckingDialogFragment.newInstance(serialNumberAndIndication.first,
+                            serialNumberAndIndication.second)
+                            .show(context.supportFragmentManager, RECOGNITION_RESULT)
                 }
             }
         }

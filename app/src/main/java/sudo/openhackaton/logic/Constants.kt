@@ -16,6 +16,7 @@ object Constants {
     const val SERIAL_NUMBER = "SERIAL_NUMBER"
     const val INDICATION = "INDICATION"
     const val RECOGNITION_RESULT = "RECOGNITION_RESULT"
+    const val DIGITS = "0123456789"
     lateinit var cameraLogic: CameraLogic
     lateinit var MAIN_DIR: String
     var FROM_WHERE = false
