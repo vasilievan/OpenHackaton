@@ -16,7 +16,6 @@ import sudo.openhackaton.logic.Recognition
 class MainActivity : AppCompatActivity() {
     private lateinit var recognition: Recognition
     private lateinit var filesLogic: FilesLogic
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
