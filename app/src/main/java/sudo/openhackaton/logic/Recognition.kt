@@ -46,7 +46,6 @@ class Recognition(private val filesLogic: FilesLogic) {
     fun doTask(
             context: AppCompatActivity,
             contentResolver: ContentResolver,
-            indicator: TextView,
             resultCode: Int,
             resultData: Intent?
     ) {
@@ -66,22 +65,22 @@ class Recognition(private val filesLogic: FilesLogic) {
             }
 
             if (inputImage == null) {
-                indicator.text = RECOGNITION_DIDNT_SUCCEED
+                CheckingDialogFragment.newInstance(RECOGNITION_DIDNT_SUCCEED)
+                    .show(context.supportFragmentManager, TEXT_FROM_RECOGNITION)
                 return
             }
 
             recognizer.process(inputImage!!).addOnCompleteListener {
-                indicator.text = if (it.result == null || it.result!!.text.isEmpty()) {
+               if (it.result == null || it.result!!.text.isEmpty()) {
                     CheckingDialogFragment.newInstance(RECOGNITION_DIDNT_SUCCEED)
                         .show(context.supportFragmentManager, TEXT_FROM_RECOGNITION)
-                    RECOGNITION_DIDNT_SUCCEED
+
                 } else {
                     if (filesLogic.lastCreated != null) {
                         filesLogic.lastCreated!!.delete()
                     }
                     CheckingDialogFragment.newInstance(it.result!!.text)
                         .show(context.supportFragmentManager, TEXT_FROM_RECOGNITION)
-                    it.result!!.text
                 }
             }
         }

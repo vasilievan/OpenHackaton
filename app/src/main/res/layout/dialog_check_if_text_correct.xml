@@ -41,7 +41,7 @@
                  app:layout_constraintBottom_toBottomOf="parent"
                  android:layout_marginBottom="10dp"
                  android:layout_marginEnd="10dp"
-                 android:onClick="apply"
+                 android:onClick="alertApply"
     />
 
     <ImageButton android:layout_width="50dp"
@@ -55,7 +55,7 @@
                  android:layout_marginBottom="10dp"
                  android:layout_marginStart="10dp"
                  android:layout_marginEnd="5dp"
-                 android:onClick="close"
+                 android:onClick="alertClose"
     />
     <ImageButton android:layout_width="50dp"
                  android:layout_height="50dp"
@@ -68,7 +68,7 @@
                  android:layout_marginBottom="10dp"
                  android:layout_marginStart="10dp"
                  android:layout_marginEnd="5dp"
-                 android:onClick="backToCamera"
+                 android:onClick="alertBack"
     />
 
     <androidx.constraintlayout.widget.Guideline

@@ -12,6 +12,7 @@ import sudo.openhackaton.R
 import sudo.openhackaton.logic.CameraLogic
 import sudo.openhackaton.logic.Constants
 import sudo.openhackaton.logic.Constants.EMPTY_STRING
+import sudo.openhackaton.logic.Constants.REQUEST_CODE_PICTURE
 import sudo.openhackaton.logic.Constants.REQUEST_TAKE_A_PHOTO
 import sudo.openhackaton.logic.Constants.cameraLogic
 import sudo.openhackaton.logic.FilesLogic
@@ -21,6 +22,7 @@ import java.io.Serializable
 class MainActivity : AppCompatActivity() {
     private lateinit var recognition: Recognition
     private lateinit var filesLogic: FilesLogic
+    private var lastRequest: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,31 +35,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun chosen(v: View) {
-        indicator.text = EMPTY_STRING
         filesLogic.performFileSearch()
+        lastRequest = REQUEST_CODE_PICTURE
     }
 
     fun takeAPhoto(v: View) {
-        indicator.text = EMPTY_STRING
         val intent = Intent(this, CameraActivity::class.java)
         startActivityForResult(intent, REQUEST_TAKE_A_PHOTO, null)
+        lastRequest = REQUEST_TAKE_A_PHOTO
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
-        recognition.doTask(this, contentResolver, indicator, resultCode, resultData)
+        recognition.doTask(this, contentResolver, resultCode, resultData)
     }
 
-    fun apply(v: View) {
-        close(v)
+    fun alertApply(v: View) {
+        alertClose(v)
     }
 
-    fun close(v: View) {
+    fun alertClose(v: View) {
         CheckingDialogFragment.close()
     }
 
-    fun backToCamera(v: View) {
-        close(v)
-        takeAPhoto(v)
+    fun alertBack(v: View) {
+        alertClose(v)
+        if (lastRequest == REQUEST_TAKE_A_PHOTO) {
+            takeAPhoto(v)
+        } else {
+            chosen(v)
+        }
     }
 }
