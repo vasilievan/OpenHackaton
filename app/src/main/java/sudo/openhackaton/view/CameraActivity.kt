@@ -19,4 +19,3 @@ class CameraActivity : AppCompatActivity() {
         cameraLogic.takePictures(rectangle, viewFinder)
     }
 }
-

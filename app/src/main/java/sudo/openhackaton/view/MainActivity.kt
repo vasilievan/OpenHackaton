@@ -1,12 +1,16 @@
 package sudo.openhackaton.view
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import sudo.openhackaton.R
 import sudo.openhackaton.logic.CameraLogic
+import sudo.openhackaton.logic.Constants
 import sudo.openhackaton.logic.Constants.EMPTY_STRING
 import sudo.openhackaton.logic.Constants.REQUEST_TAKE_A_PHOTO
 import sudo.openhackaton.logic.Constants.cameraLogic
@@ -41,6 +45,14 @@ class MainActivity : AppCompatActivity(), Serializable {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
-        recognition.doTask(contentResolver, indicator, resultCode, resultData)
+        recognition.doTask(this, contentResolver, indicator, resultCode, resultData)
+    }
+
+    fun apply(v: View) {
+        close(v)
+    }
+
+    fun close(v: View) {
+        CheckingDialogFragment.close()
     }
 }

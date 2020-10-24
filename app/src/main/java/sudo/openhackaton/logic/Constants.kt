@@ -14,6 +14,9 @@ object Constants {
     const val CAPTURE_FAILED = "Photo capture failed: "
     const val TAG = "TAG"
     const val BINDING_FAILED = "Use case binding failed"
+    const val TEXT_FROM_RECOGNITION = "textFromRecognition"
+    const val TITLE_SORRY = "Sorry"
+    const val TITLE_CHECK = "All right?"
     lateinit var cameraLogic: CameraLogic
     lateinit var MAIN_DIR: String
 }
