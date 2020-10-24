@@ -14,7 +14,7 @@ import sudo.openhackaton.logic.FilesLogic
 import sudo.openhackaton.logic.Recognition
 import java.io.Serializable
 
-class MainActivity : AppCompatActivity(), Serializable {
+class MainActivity : AppCompatActivity() {
     private lateinit var recognition: Recognition
     private lateinit var filesLogic: FilesLogic
 
