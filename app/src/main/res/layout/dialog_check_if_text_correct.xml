@@ -39,7 +39,7 @@
         android:background="@android:color/transparent"
         android:onClick="apply"
         android:scaleType="fitCenter"
-        android:src="@drawable/apply"
+        android:src="@xml/apply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -53,7 +53,7 @@
         android:background="@android:color/transparent"
         android:onClick="close"
         android:scaleType="fitCenter"
-        android:src="@drawable/close"
+        android:src="@xml/close"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -67,7 +67,7 @@
         android:background="@android:color/transparent"
         android:onClick="backToFromYouAre"
         android:scaleType="fitCenter"
-        android:src="@drawable/back"
+        android:src="@xml/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/btn_negative" />
 

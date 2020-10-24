@@ -28,7 +28,6 @@ class CameraLogic(val filesLogic: FilesLogic) {
         val imageCapture = imageCapture ?: return
         val imageFile = filesLogic.createImageFile() ?: return
         val outputOptions = ImageCapture.OutputFileOptions.Builder(imageFile).build()
-
         imageCapture.takePicture(
             outputOptions, ContextCompat.getMainExecutor(filesLogic.context),
             object : ImageCapture.OnImageSavedCallback {
