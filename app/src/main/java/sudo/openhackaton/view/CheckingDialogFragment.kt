@@ -7,26 +7,27 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import sudo.openhackaton.R
-
-import sudo.openhackaton.logic.Constants.TEXT_FROM_RECOGNITION
+import sudo.openhackaton.logic.Constants.INDICATION
+import sudo.openhackaton.logic.Constants.SERIAL_NUMBER
 
 
 class CheckingDialogFragment : DialogFragment() {
-
-    private var textFromRecognition: String? = null
+    private var serialNumberString: String? = null
+    private var indicationString: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        textFromRecognition = arguments!!.getString(TEXT_FROM_RECOGNITION)
+        indicationString = arguments!!.getString(INDICATION)
+        serialNumberString = arguments!!.getString(SERIAL_NUMBER)
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog!!.window?.setBackgroundDrawableResource(R.drawable.alert_background)
         val view = inflater.inflate(R.layout.dialog_check_if_text_correct, container, false)
-        val textView = view.findViewById<TextView>(R.id.text_from_recognition1)
-
-        textView.text = textFromRecognition
+        val indication = view.findViewById<TextView>(R.id.indication)
+        val serialNumber = view.findViewById<TextView>(R.id.serialNumber)
+        indication.text = indicationString
+        serialNumber.text = serialNumberString
         return view
     }
 
@@ -37,14 +38,14 @@ class CheckingDialogFragment : DialogFragment() {
         dialog!!.window?.setLayout(width, height)
     }
 
-
     companion object {
         private lateinit var currentDialog: CheckingDialogFragment
-        fun newInstance(textFromRecognition: String?): DialogFragment {
+        fun newInstance(serialNumber: String?, indication: String?): DialogFragment {
             val fragment = CheckingDialogFragment()
             currentDialog = fragment
             val args = Bundle()
-            args.putString(TEXT_FROM_RECOGNITION, textFromRecognition)
+            args.putString(SERIAL_NUMBER, serialNumber)
+            args.putString(INDICATION, indication)
             fragment.arguments = args
             return fragment
         }

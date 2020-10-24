@@ -16,6 +16,6 @@ class CameraActivity : AppCompatActivity() {
     }
 
     fun takeAPhoto(v: View) {
-        cameraLogic.takePictures(rectangle, viewFinder)
+        cameraLogic.takePictures()
     }
 }

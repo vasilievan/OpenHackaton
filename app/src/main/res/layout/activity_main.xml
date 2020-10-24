@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,48 +13,44 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
-            android:src="@drawable/main_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop">
-        </ImageView>
-        <TextView
-            android:id="@+id/indicator"
+            android:scaleType="centerCrop"
+            android:src="@drawable/main_background"/>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:layout_centerHorizontal="true"
-            android:layout_margin="20sp"/>
-        <LinearLayout
-            android:layout_marginBottom="40sp"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40sp">
+
             <ImageButton
-                android:layout_marginTop="150sp"
-                android:src="@drawable/choose"
-                android:background="@android:color/transparent"
                 android:id="@+id/chooseButton"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:scaleType="fitCenter"
+                android:layout_marginTop="150sp"
+                android:background="@android:color/transparent"
                 android:onClick="chosen"
+                android:scaleType="fitCenter"
+                android:src="@drawable/choose"
                 android:text="@string/choose_a_picture"
-                android:textAllCaps="false"/>
+                android:textAllCaps="false" />
+
             <ImageButton
 
-                android:layout_marginBottom="90sp"
-                android:src="@drawable/camera"
-                android:background="@android:color/transparent"
                 android:id="@+id/photoButton"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:layout_marginBottom="90sp"
+                android:background="@android:color/transparent"
+                android:onClick="takeAPhoto"
                 android:scaleType="fitCenter"
+                android:src="@drawable/camera"
                 android:text="@string/take_a_photo"
-                android:textAllCaps="false"
-                android:onClick="takeAPhoto"/>
+                android:textAllCaps="false" />
         </LinearLayout>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

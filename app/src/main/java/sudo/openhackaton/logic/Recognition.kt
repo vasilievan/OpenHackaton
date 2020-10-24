@@ -6,14 +6,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.net.Uri
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import sudo.openhackaton.logic.Constants.RECOGNITION_DIDNT_SUCCEED
 import sudo.openhackaton.logic.Constants.RECOGNITION_IN_PROGRESS
-import sudo.openhackaton.logic.Constants.TEXT_FROM_RECOGNITION
+import sudo.openhackaton.logic.Constants.RECOGNITION_RESULT
 import sudo.openhackaton.view.CheckingDialogFragment
 import java.io.FileOutputStream
 import java.io.IOException
@@ -22,6 +21,14 @@ class Recognition(private val filesLogic: FilesLogic) {
     private var inputImage: InputImage? = null
     private val recognizer = TextRecognition.getClient()
     private lateinit var context: AppCompatActivity
+
+    private fun serialNumber(strings: MutableSet<String>): String {
+        return ""
+    }
+
+    private fun indication(strings: MutableSet<String>): String {
+        return ""
+    }
 
     private fun rotateBitmap(source: Bitmap, angle: Float): Bitmap? {
         val matrix = Matrix()
@@ -34,7 +41,7 @@ class Recognition(private val filesLogic: FilesLogic) {
             val bm = filesLogic.getBitmapFromUri(contentResolver, uri) ?: return
             filesLogic.createImageFile()
             val fos = FileOutputStream(filesLogic.lastCreated)
-            val rotated = rotateBitmap(bm,90f) ?: return
+            val rotated = rotateBitmap(bm, 90f) ?: return
             rotated.compress(Bitmap.CompressFormat.JPEG, 100, fos)
             fos.flush()
             fos.close()
@@ -46,7 +53,6 @@ class Recognition(private val filesLogic: FilesLogic) {
     fun doTask(
             context: AppCompatActivity,
             contentResolver: ContentResolver,
-            indicator: TextView,
             resultCode: Int,
             resultData: Intent?
     ) {
@@ -54,11 +60,7 @@ class Recognition(private val filesLogic: FilesLogic) {
         if (resultCode == Activity.RESULT_OK) {
             Toast.makeText(filesLogic.context, RECOGNITION_IN_PROGRESS, Toast.LENGTH_LONG).show()
             inputImage = if (resultData == null) {
-                if (filesLogic.bitmap != null) InputImage.fromBitmap(filesLogic.bitmap!!, 0)
-                else InputImage.fromFilePath(
-                        filesLogic.context,
-                        Uri.fromFile(filesLogic.lastCreated)
-                )
+                InputImage.fromFilePath(filesLogic.context, Uri.fromFile(filesLogic.lastCreated))
             } else {
                 prepareData(contentResolver, resultData.data)
                 val bm = filesLogic.getBitmapFromAbsolutePath(filesLogic.lastCreated!!.absolutePath) ?: return
@@ -66,22 +68,24 @@ class Recognition(private val filesLogic: FilesLogic) {
             }
 
             if (inputImage == null) {
-                indicator.text = RECOGNITION_DIDNT_SUCCEED
+                Toast.makeText(context, RECOGNITION_DIDNT_SUCCEED, Toast.LENGTH_LONG).show()
                 return
             }
 
             recognizer.process(inputImage!!).addOnCompleteListener {
-                indicator.text = if (it.result == null || it.result!!.text.isEmpty()) {
-                    CheckingDialogFragment.newInstance(RECOGNITION_DIDNT_SUCCEED)
-                        .show(context.supportFragmentManager, TEXT_FROM_RECOGNITION)
-                    RECOGNITION_DIDNT_SUCCEED
+                if (it.result == null || it.result!!.text.isEmpty()) {
+                    Toast.makeText(context, RECOGNITION_DIDNT_SUCCEED, Toast.LENGTH_LONG).show()
                 } else {
                     if (filesLogic.lastCreated != null) {
                         filesLogic.lastCreated!!.delete()
                     }
-                    CheckingDialogFragment.newInstance(it.result!!.text)
-                        .show(context.supportFragmentManager, TEXT_FROM_RECOGNITION)
-                    it.result!!.text
+                    val recognizedStrings = mutableSetOf<String>()
+                    it.result!!.textBlocks.forEach { textBlock ->
+                        recognizedStrings.add(textBlock.text)
+                    }
+                    val serialNumber = serialNumber(recognizedStrings)
+                    val indication = indication(recognizedStrings)
+                    CheckingDialogFragment.newInstance(serialNumber, indication).show(context.supportFragmentManager, RECOGNITION_RESULT)
                 }
             }
         }

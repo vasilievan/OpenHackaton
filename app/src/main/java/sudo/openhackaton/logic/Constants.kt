@@ -10,11 +10,12 @@ object Constants {
     const val REQUEST_CODE_PICTURE = 44
     const val REQUEST_TAKE_A_PHOTO = 45
     const val JPG = ".jpg"
-    const val EMPTY_STRING = ""
     const val CAPTURE_FAILED = "Photo capture failed: "
     const val TAG = "TAG"
     const val BINDING_FAILED = "Use case binding failed"
-    const val TEXT_FROM_RECOGNITION = "textFromRecognition"
+    const val SERIAL_NUMBER = "SERIAL_NUMBER"
+    const val INDICATION = "INDICATION"
+    const val RECOGNITION_RESULT = "RECOGNITION_RESULT"
     lateinit var cameraLogic: CameraLogic
     lateinit var MAIN_DIR: String
 }

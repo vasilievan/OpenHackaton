@@ -26,7 +26,6 @@ import java.io.IOException
 import java.util.*
 
 class FilesLogic(val context: Context, private val activity: Activity) {
-    var bitmap: Bitmap? = null
     var lastCreated: File? = null
     private set
 
