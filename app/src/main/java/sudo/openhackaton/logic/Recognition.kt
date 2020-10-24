@@ -10,10 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
-import org.opencv.core.Core
-import org.opencv.core.Mat
-import org.opencv.imgcodecs.Imgcodecs
-import org.opencv.imgproc.Imgproc
 import sudo.openhackaton.logic.Constants.RECOGNITION_DIDNT_SUCCEED
 import sudo.openhackaton.logic.Constants.RECOGNITION_IN_PROGRESS
 import java.io.FileOutputStream
@@ -23,34 +19,22 @@ class Recognition(private val filesLogic: FilesLogic) {
     private var inputImage: InputImage? = null
     private val recognizer = TextRecognition.getClient()
 
-    fun rotateBitmap(source: Bitmap, angle: Float): Bitmap? {
+    private fun rotateBitmap(source: Bitmap, angle: Float): Bitmap? {
         val matrix = Matrix()
         matrix.postRotate(angle)
         return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
     }
 
-    private fun prepateData(contentResolver: ContentResolver, uri: Uri?) {
+    private fun prepareData(contentResolver: ContentResolver, uri: Uri?) {
         try {
             val bm = filesLogic.getBitmapFromUri(contentResolver, uri) ?: return
-            val rotated = rotateBitmap(bm, 90f) ?: return
             filesLogic.createImageFile()
             val fos = FileOutputStream(filesLogic.lastCreated)
+            val rotated = rotateBitmap(bm,90f) ?: return
             rotated.compress(Bitmap.CompressFormat.JPEG, 100, fos)
             fos.flush()
             fos.close()
         } catch (e: IOException) {
-            return
-        }
-        try {
-            System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
-            val src = Imgcodecs.imread(filesLogic.lastCreated!!.absolutePath, 0)
-            val dst = Mat()
-            Imgproc.adaptiveThreshold(
-                    src, dst, 125.0, Imgproc.ADAPTIVE_THRESH_MEAN_C,
-                    Imgproc.THRESH_BINARY, 11, 12.0
-            )
-            Imgcodecs.imwrite(filesLogic.lastCreated!!.absolutePath, dst)
-        } catch (e: Exception) {
             return
         }
     }
@@ -70,8 +54,8 @@ class Recognition(private val filesLogic: FilesLogic) {
                         Uri.fromFile(filesLogic.lastCreated)
                 )
             } else {
-                prepateData(contentResolver, resultData.data)
-                val bm = filesLogic.getBitmapFromUri(contentResolver, resultData.data) ?: return
+                prepareData(contentResolver, resultData.data)
+                val bm = filesLogic.getBitmapFromAbsolutePath(filesLogic.lastCreated!!.absolutePath) ?: return
                 InputImage.fromBitmap(bm, 0)
             }
 
@@ -85,7 +69,7 @@ class Recognition(private val filesLogic: FilesLogic) {
                     RECOGNITION_DIDNT_SUCCEED
                 } else {
                     if (filesLogic.lastCreated != null) {
-                        //filesLogic.lastCreated!!.delete()
+                        filesLogic.lastCreated!!.delete()
                     }
                     it.result!!.text
                 }

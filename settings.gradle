@@ -1,3 +1,2 @@
-include ':sdk'
 rootProject.name = "OpenHackaton"
 include ':app'
