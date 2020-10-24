@@ -85,7 +85,7 @@ class Recognition(private val filesLogic: FilesLogic) {
                     RECOGNITION_DIDNT_SUCCEED
                 } else {
                     if (filesLogic.lastCreated != null) {
-                        filesLogic.lastCreated!!.delete()
+                        //filesLogic.lastCreated!!.delete()
                     }
                     it.result!!.text
                 }
