@@ -30,6 +30,7 @@ class FilesLogic(val context: Context, private val activity: Activity) {
     var lastCreated: File? = null
     var files: Queue<File> = LinkedList()
 
+
     fun askForPermissions() {
         if ((ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) ||
