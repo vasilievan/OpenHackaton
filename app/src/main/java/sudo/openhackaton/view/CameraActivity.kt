@@ -17,5 +17,6 @@ class CameraActivity : AppCompatActivity() {
 
     fun takeAPhoto(v: View) {
         cameraLogic.takePictures()
+        v.isClickable = false
     }
 }
