@@ -41,9 +41,6 @@ class Recognition(private val filesLogic: FilesLogic) {
         newStr.sortByDescending { it.count { char -> DIGITS.contains(char) } }
         val newNewStr = mutableListOf<String>()
         newStr.forEach { newNewStr.add(Regex("""[A-Za-z]""").replace(it, "")) }
-        newNewStr.forEach {
-            println(it)
-        }
         return newNewStr[0] to newNewStr.firstOrNull { it.matches(Regex("""\d{3,8}""")) }
     }
 

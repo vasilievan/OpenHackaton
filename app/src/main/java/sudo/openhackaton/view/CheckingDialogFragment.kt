@@ -11,7 +11,6 @@ import sudo.openhackaton.logic.Constants.INDICATION
 import sudo.openhackaton.logic.Constants.SERIAL_NUMBER
 import java.util.*
 
-
 class CheckingDialogFragment : DialogFragment() {
     private var serialNumberString: String? = null
     private var indicationString: String? = null
