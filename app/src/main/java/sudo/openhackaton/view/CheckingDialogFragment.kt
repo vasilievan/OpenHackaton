@@ -41,23 +41,19 @@ class CheckingDialogFragment : DialogFragment() {
     }
 
     companion object {
-        private val q: Queue<CheckingDialogFragment> = LinkedList()
+        private var q: CheckingDialogFragment? = null
         fun newInstance(serialNumber: String?, indication: String?): DialogFragment {
             val fragment = CheckingDialogFragment()
+            q = fragment
             val args = Bundle()
             args.putString(SERIAL_NUMBER, serialNumber)
             SERIAL_NUMBER_VALUE = serialNumber
             args.putString(INDICATION, indication)
             INDICATION_VALUE = indication
             fragment.arguments = args
-            q.add(fragment)
             return fragment
         }
 
-        fun close() {
-            if (q.isNotEmpty()) {
-                q.poll().dismiss()
-            }
-        }
+        fun close() { q?.dismiss() }
     }
 }
