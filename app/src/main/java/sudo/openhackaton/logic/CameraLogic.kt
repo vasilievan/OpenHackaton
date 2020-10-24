@@ -24,11 +24,10 @@ class CameraLogic(val filesLogic: FilesLogic) {
 
     fun setCameraActivity(activity: Activity) { cameraActivity = activity }
 
-    fun takePictures(frame: View, reference: View) {
+    fun takePictures() {
         val imageCapture = imageCapture ?: return
         val imageFile = filesLogic.createImageFile() ?: return
         val outputOptions = ImageCapture.OutputFileOptions.Builder(imageFile).build()
-        filesLogic.bitmap = null
 
         imageCapture.takePicture(
             outputOptions, ContextCompat.getMainExecutor(filesLogic.context),
@@ -39,34 +38,10 @@ class CameraLogic(val filesLogic: FilesLogic) {
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val bm = filesLogic.getBitmapFromAbsolutePath(imageFile.absolutePath) ?: return
-                    filesLogic.bitmap = cropImage(bm, frame, reference)
                     cameraActivity!!.setResult(Activity.RESULT_OK)
                     cameraActivity!!.finish()
                 }
             })
-    }
-
-    private fun cropImage(bitmap: Bitmap, frame: View, reference: View): Bitmap {
-        val matrix = Matrix()
-        matrix.postRotate(90F)
-        val rotatedBitmap = Bitmap.createBitmap(
-            bitmap, 0, 0,
-            bitmap.width, bitmap.height, matrix, true
-        )
-        val koefX = rotatedBitmap.width.toFloat() / reference.width
-        val koefY = rotatedBitmap.height.toFloat() / reference.height
-        val x1: Int = frame.left
-        val y1: Int = frame.top
-        val x2: Int = frame.width
-        val y2: Int = frame.height
-        val cropStartX = (x1 * koefX).roundToInt()
-        val cropStartY = (y1 * koefY).roundToInt()
-        val cropWidthX = (x2 * koefX).roundToInt()
-        val cropHeightY = (y2 * koefY).roundToInt()
-        return Bitmap.createBitmap(
-            rotatedBitmap,
-            cropStartX, cropStartY, cropWidthX, cropHeightY
-        )
     }
 
     fun startCamera(viewFinder: PreviewView, activity: AppCompatActivity) {
