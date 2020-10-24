@@ -6,10 +6,13 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.dialog_check_if_text_correct.*
 import sudo.openhackaton.R
 import sudo.openhackaton.logic.CameraLogic
 import sudo.openhackaton.logic.Constants.FROM_WHERE
+import sudo.openhackaton.logic.Constants.INDICATION_VALUE
 import sudo.openhackaton.logic.Constants.REQUEST_TAKE_A_PHOTO
+import sudo.openhackaton.logic.Constants.SERIAL_NUMBER_VALUE
 import sudo.openhackaton.logic.Constants.cameraLogic
 import sudo.openhackaton.logic.FilesLogic
 import sudo.openhackaton.logic.Network
@@ -45,16 +48,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun apply(v: View) {
-        Network.workForIlya(
-            v.findViewById<EditText>(R.id.serialNumber).text.toString(),
-            v.findViewById<EditText>(R.id.indication).text.toString()
-        )
+        Network.workForIlya(SERIAL_NUMBER_VALUE, INDICATION_VALUE)
+        SERIAL_NUMBER_VALUE = null
+        INDICATION_VALUE = null
         close(v)
     }
 
-    fun close(v: View) {
-        CheckingDialogFragment.close()
-    }
+    fun close(v: View) { CheckingDialogFragment.close() }
 
     fun backToFromYouAre(v: View) {
         close(v)

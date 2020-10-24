@@ -19,5 +19,7 @@ object Constants {
     const val DIGITS = "0123456789"
     lateinit var cameraLogic: CameraLogic
     lateinit var MAIN_DIR: String
+    var SERIAL_NUMBER_VALUE: String? = null
+    var INDICATION_VALUE: String? = null
     var FROM_WHERE = false
 }

@@ -8,9 +8,10 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import sudo.openhackaton.R
 import sudo.openhackaton.logic.Constants.INDICATION
+import sudo.openhackaton.logic.Constants.INDICATION_VALUE
 import sudo.openhackaton.logic.Constants.SERIAL_NUMBER
+import sudo.openhackaton.logic.Constants.SERIAL_NUMBER_VALUE
 import java.util.*
-
 
 class CheckingDialogFragment : DialogFragment() {
     private var serialNumberString: String? = null
@@ -45,7 +46,9 @@ class CheckingDialogFragment : DialogFragment() {
             val fragment = CheckingDialogFragment()
             val args = Bundle()
             args.putString(SERIAL_NUMBER, serialNumber)
+            SERIAL_NUMBER_VALUE = serialNumber
             args.putString(INDICATION, indication)
+            INDICATION_VALUE = indication
             fragment.arguments = args
             q.add(fragment)
             return fragment
