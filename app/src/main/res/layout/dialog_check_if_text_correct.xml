@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:textColor="@color/white"
         android:textAlignment="center"
         android:id="@+id/serialNumber"
         android:layout_width="match_parent"
@@ -20,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:textColor="@color/white"
         android:textAlignment="center"
         android:id="@+id/indication"
         android:layout_width="match_parent"
