@@ -3,6 +3,7 @@ package sudo.openhackaton.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import sudo.openhackaton.R
 import sudo.openhackaton.logic.CameraLogic
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main)
         filesLogic = FilesLogic(this, this)
         cameraLogic = CameraLogic(filesLogic)
@@ -25,9 +27,7 @@ class MainActivity : AppCompatActivity() {
         filesLogic.beginning()
     }
 
-    fun chosen(v: View) {
-        filesLogic.performFileSearch()
-    }
+    fun chosen(v: View) { filesLogic.performFileSearch() }
 
     fun takeAPhoto(v: View) {
         val intent = Intent(this, CameraActivity::class.java)
@@ -39,13 +39,9 @@ class MainActivity : AppCompatActivity() {
         recognition.doTask(this, contentResolver, resultCode, resultData)
     }
 
-    fun apply(v: View) {
-        close(v)
-    }
+    fun apply(v: View) { close(v) }
 
-    fun close(v: View) {
-        CheckingDialogFragment.close()
-    }
+    fun close(v: View) { CheckingDialogFragment.close() }
 
     fun backToCamera(v: View) {
         close(v)
