@@ -55,4 +55,9 @@ class MainActivity : AppCompatActivity() {
     fun close(v: View) {
         CheckingDialogFragment.close()
     }
+
+    fun backToCamera(v: View) {
+        close(v)
+        takeAPhoto(v)
+    }
 }
