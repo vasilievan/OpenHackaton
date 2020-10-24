@@ -36,7 +36,6 @@
                 android:onClick="chosen"
                 android:scaleType="fitCenter"
                 android:src="@drawable/choose"
-                android:text="@string/choose_a_picture"
                 android:textAllCaps="false" />
 
             <ImageButton
@@ -49,7 +48,6 @@
                 android:onClick="takeAPhoto"
                 android:scaleType="fitCenter"
                 android:src="@drawable/camera"
-                android:text="@string/take_a_photo"
                 android:textAllCaps="false" />
         </LinearLayout>
     </RelativeLayout>

@@ -65,7 +65,7 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
         android:background="@android:color/transparent"
-        android:onClick="backToCamera"
+        android:onClick="backToFromYouAre"
         android:scaleType="fitCenter"
         android:src="@drawable/back"
         app:layout_constraintBottom_toBottomOf="parent"

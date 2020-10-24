@@ -18,4 +18,5 @@ object Constants {
     const val RECOGNITION_RESULT = "RECOGNITION_RESULT"
     lateinit var cameraLogic: CameraLogic
     lateinit var MAIN_DIR: String
+    var FROM_WHERE = false
 }

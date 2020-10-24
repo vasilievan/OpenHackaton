@@ -7,6 +7,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import sudo.openhackaton.R
 import sudo.openhackaton.logic.CameraLogic
+import sudo.openhackaton.logic.Constants.FROM_WHERE
 import sudo.openhackaton.logic.Constants.REQUEST_TAKE_A_PHOTO
 import sudo.openhackaton.logic.Constants.cameraLogic
 import sudo.openhackaton.logic.FilesLogic
@@ -43,8 +44,12 @@ class MainActivity : AppCompatActivity() {
 
     fun close(v: View) { CheckingDialogFragment.close() }
 
-    fun backToCamera(v: View) {
+    fun backToFromYouAre(v: View) {
         close(v)
-        takeAPhoto(v)
+        if (FROM_WHERE) {
+            takeAPhoto(v)
+        } else {
+            chosen(v)
+        }
     }
 }

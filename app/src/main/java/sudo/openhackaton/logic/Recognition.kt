@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
+import sudo.openhackaton.logic.Constants.FROM_WHERE
 import sudo.openhackaton.logic.Constants.RECOGNITION_DIDNT_SUCCEED
 import sudo.openhackaton.logic.Constants.RECOGNITION_IN_PROGRESS
 import sudo.openhackaton.logic.Constants.RECOGNITION_RESULT
@@ -60,8 +61,10 @@ class Recognition(private val filesLogic: FilesLogic) {
         if (resultCode == Activity.RESULT_OK) {
             Toast.makeText(filesLogic.context, RECOGNITION_IN_PROGRESS, Toast.LENGTH_LONG).show()
             inputImage = if (resultData == null) {
+                FROM_WHERE = true
                 InputImage.fromFilePath(filesLogic.context, Uri.fromFile(filesLogic.lastCreated))
             } else {
+                FROM_WHERE = false
                 prepareData(contentResolver, resultData.data)
                 val bm = filesLogic.getBitmapFromAbsolutePath(filesLogic.lastCreated!!.absolutePath) ?: return
                 InputImage.fromBitmap(bm, 0)
