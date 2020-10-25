@@ -52,11 +52,7 @@ class MainActivity : AppCompatActivity() {
                     gson {}
                 }
                 routing {
-                    get("/") {
-                        call.respond(mapOf("message" to "Hello world"))
-                    }
-
-                    get("/api/uploadimage") {
+                    post("/api/uploadimage") {
                         val parameters = call.parameters
                         val file = parameters["filePath"]
                         val result = recognition.serverDoTask(file)
