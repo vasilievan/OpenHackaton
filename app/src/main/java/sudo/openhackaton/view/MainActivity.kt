@@ -62,6 +62,16 @@ class MainActivity : AppCompatActivity() {
                             call.respond(mapOf(result.first to result.second))
                         }
                     }
+                    get("/api/uploadimage") {
+                        val parameters = call.parameters
+                        val file = parameters["filePath"]
+                        val result = recognition.serverDoTask(file)
+                        if (result?.second == null) {
+                            call.respond(HttpStatusCode.InternalServerError)
+                        } else {
+                            call.respond(mapOf(result.first to result.second))
+                        }
+                    }
                 }
             }.start(wait = true)
         }
