@@ -23,6 +23,7 @@ class Recognition(private val filesLogic: FilesLogic) {
     private var inputImage: InputImage? = null
     private val recognizer = TextRecognition.getClient()
     private lateinit var context: AppCompatActivity
+
     private fun serialNumberAndIndication(strings: MutableList<String>): Pair<String?, String?> {
         if (strings.size == 0) return null to null
         if (strings.size == 1) return strings[0] to null
@@ -52,6 +53,29 @@ class Recognition(private val filesLogic: FilesLogic) {
         } catch (e: IOException) {
             return
         }
+    }
+
+    fun serverDoTask(path: String?): Pair<String?, String?>? {
+        var serial: String? = null
+        var indication: String? = null
+        if (path == null) return null
+        val bm = filesLogic.getBitmapFromAbsolutePath(path) ?: return null
+        val rotated = rotateBitmap(bm, 90f) ?: return null
+        val inIm = InputImage.fromBitmap(rotated, 0)
+        val process = recognizer.process(inIm)
+        // Kostyl' ;)
+        while (!process.isComplete) {
+        }
+        if (process.result != null && process.result!!.text.isNotEmpty()) {
+            val recognizedStrings = mutableListOf<String>()
+            process.result!!.textBlocks.forEach { textBlock ->
+                recognizedStrings.add(textBlock.text)
+            }
+            val result = serialNumberAndIndication(recognizedStrings)
+            serial = result.first
+            indication = result.second
+        }
+        return serial to indication
     }
 
     fun doTask(

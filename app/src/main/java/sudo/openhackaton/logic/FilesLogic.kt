@@ -34,6 +34,8 @@ class FilesLogic(val context: Context, private val activity: Activity) {
             (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) ||
             (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) ||
+            (ContextCompat.checkSelfPermission(context, Manifest.permission.INTERNET)
                     != PackageManager.PERMISSION_GRANTED)
         ) {
             ActivityCompat.requestPermissions(
@@ -41,7 +43,8 @@ class FilesLogic(val context: Context, private val activity: Activity) {
                 arrayOf(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.CAMERA
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.INTERNET
                 ),
                 REQUEST_CODE_PERMISSIONS
             )

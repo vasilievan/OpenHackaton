@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.dialog_check_if_text_correct.*
 import sudo.openhackaton.R
 import sudo.openhackaton.logic.CameraLogic
 import sudo.openhackaton.logic.Constants.FROM_WHERE
@@ -17,6 +15,19 @@ import sudo.openhackaton.logic.Constants.cameraLogic
 import sudo.openhackaton.logic.FilesLogic
 import sudo.openhackaton.logic.Network
 import sudo.openhackaton.logic.Recognition
+import io.ktor.application.call
+import io.ktor.application.install
+import io.ktor.features.ContentNegotiation
+import io.ktor.gson.gson
+import io.ktor.http.*
+import io.ktor.request.*
+import io.ktor.response.respond
+import io.ktor.routing.*
+import io.ktor.routing.get
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
+import java.io.File
+import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +42,33 @@ class MainActivity : AppCompatActivity() {
         recognition = Recognition(filesLogic)
         filesLogic.askForPermissions()
         filesLogic.beginning()
+        openServer()
+    }
+
+    private fun openServer() {
+        thread {
+            embeddedServer(Netty, 8080) {
+                install(ContentNegotiation) {
+                    gson {}
+                }
+                routing {
+                    get("/") {
+                        call.respond(mapOf("message" to "Hello world"))
+                    }
+
+                    get("/api/uploadimage") {
+                        val parameters = call.parameters
+                        val file = parameters["filePath"]
+                        val result = recognition.serverDoTask(file)
+                        if (result?.second == null) {
+                            call.respond(HttpStatusCode.InternalServerError)
+                        } else {
+                            call.respond(mapOf(result.first to result.second))
+                        }
+                    }
+                }
+            }.start(wait = true)
+        }
     }
 
     fun chosen(v: View) {
