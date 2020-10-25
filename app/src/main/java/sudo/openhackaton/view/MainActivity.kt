@@ -26,6 +26,10 @@ import io.ktor.routing.*
 import io.ktor.routing.get
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import sudo.openhackaton.logic.Constants.SERVER_FILE_PATH
+import sudo.openhackaton.logic.Constants.SERVER_PATH
+import sudo.openhackaton.logic.Constants.SERVER_SERIAL_NUMBER
+import sudo.openhackaton.logic.Constants.SERVER_VALUE
 import java.io.File
 import kotlin.concurrent.thread
 
@@ -52,9 +56,9 @@ class MainActivity : AppCompatActivity() {
                     gson {}
                 }
                 routing {
-                    post("/api/uploadimage") {
+                    post(SERVER_PATH) {
                         val parameters = call.parameters
-                        val file = parameters["filePath"]
+                        val file = parameters[SERVER_FILE_PATH]
                         val result = recognition.serverDoTask(file)
                         if (result?.second == null) {
                             call.respond(HttpStatusCode.InternalServerError)
@@ -62,14 +66,14 @@ class MainActivity : AppCompatActivity() {
                             call.respond(mapOf(result.first to result.second))
                         }
                     }
-                    get("/api/uploadimage") {
+                    get(SERVER_PATH) {
                         val parameters = call.parameters
-                        val file = parameters["filePath"]
+                        val file = parameters[SERVER_FILE_PATH]
                         val result = recognition.serverDoTask(file)
                         if (result?.second == null) {
                             call.respond(HttpStatusCode.InternalServerError)
                         } else {
-                            call.respond(mapOf(result.first to result.second))
+                            call.respond(mapOf(SERVER_SERIAL_NUMBER to result.first, SERVER_VALUE to result.second))
                         }
                     }
                 }

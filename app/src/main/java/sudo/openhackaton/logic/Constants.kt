@@ -17,6 +17,10 @@ object Constants {
     const val INDICATION = "INDICATION"
     const val RECOGNITION_RESULT = "RECOGNITION_RESULT"
     const val DIGITS = "0123456789"
+    const val SERVER_VALUE = "value"
+    const val SERVER_SERIAL_NUMBER = "serialNumber"
+    const val SERVER_PATH = "/api/uploadimage"
+    const val SERVER_FILE_PATH = "filePath"
     lateinit var cameraLogic: CameraLogic
     lateinit var MAIN_DIR: String
     var SERIAL_NUMBER_VALUE: String? = null
