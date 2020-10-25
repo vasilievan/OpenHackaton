@@ -13,14 +13,12 @@ import sudo.openhackaton.logic.Constants.REQUEST_TAKE_A_PHOTO
 import sudo.openhackaton.logic.Constants.SERIAL_NUMBER_VALUE
 import sudo.openhackaton.logic.Constants.cameraLogic
 import sudo.openhackaton.logic.FilesLogic
-import sudo.openhackaton.logic.Network
 import sudo.openhackaton.logic.Recognition
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
 import io.ktor.http.*
-import io.ktor.request.*
 import io.ktor.response.respond
 import io.ktor.routing.*
 import io.ktor.routing.get
@@ -30,9 +28,7 @@ import sudo.openhackaton.logic.Constants.SERVER_FILE_PATH
 import sudo.openhackaton.logic.Constants.SERVER_PATH
 import sudo.openhackaton.logic.Constants.SERVER_SERIAL_NUMBER
 import sudo.openhackaton.logic.Constants.SERVER_VALUE
-import java.io.File
 import kotlin.concurrent.thread
-
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recognition: Recognition
@@ -95,11 +91,12 @@ class MainActivity : AppCompatActivity() {
         recognition.doTask(this, contentResolver, resultCode, resultData)
     }
 
-    fun apply(v: View) {
-        Network.workForIlya(SERIAL_NUMBER_VALUE, INDICATION_VALUE)
+    fun apply(v: View): String {
+        val result = "{\"$SERVER_SERIAL_NUMBER\":\"$SERIAL_NUMBER_VALUE\",\"$SERVER_VALUE\":\"$INDICATION_VALUE\"}"
         SERIAL_NUMBER_VALUE = null
         INDICATION_VALUE = null
         close(v)
+        return result
     }
 
     fun close(v: View) { CheckingDialogFragment.close() }

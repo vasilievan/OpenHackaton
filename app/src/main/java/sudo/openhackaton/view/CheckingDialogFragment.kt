@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
@@ -13,7 +12,6 @@ import sudo.openhackaton.logic.Constants.INDICATION
 import sudo.openhackaton.logic.Constants.INDICATION_VALUE
 import sudo.openhackaton.logic.Constants.SERIAL_NUMBER
 import sudo.openhackaton.logic.Constants.SERIAL_NUMBER_VALUE
-import java.util.*
 
 class CheckingDialogFragment : DialogFragment() {
     private var serialNumberString: String? = null
@@ -62,6 +60,8 @@ class CheckingDialogFragment : DialogFragment() {
             return fragment
         }
 
-        fun close() { q?.dismiss() }
+        fun close() {
+            q?.dismiss()
+        }
     }
 }

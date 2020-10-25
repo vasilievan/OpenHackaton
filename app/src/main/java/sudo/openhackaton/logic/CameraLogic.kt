@@ -1,10 +1,7 @@
 package sudo.openhackaton.logic
 
 import android.app.Activity
-import android.graphics.Bitmap
-import android.graphics.Matrix
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -16,7 +13,6 @@ import androidx.core.content.ContextCompat
 import sudo.openhackaton.logic.Constants.BINDING_FAILED
 import sudo.openhackaton.logic.Constants.CAPTURE_FAILED
 import sudo.openhackaton.logic.Constants.TAG
-import kotlin.math.roundToInt
 
 class CameraLogic(val filesLogic: FilesLogic) {
     private var imageCapture: ImageCapture? = null
